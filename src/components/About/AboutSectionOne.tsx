@@ -29,6 +29,16 @@ const achievements = [
   },
 ] as const;
 
+// Replace these local placeholders with official HEC FA photos when available.
+const galleryImages = [
+  { src: "/images/blog/blog-01.jpg", alt: "Finance learning session" },
+  { src: "/images/video/video.jpg", alt: "HEC FA event atmosphere" },
+  { src: "/images/blog/blog-02.jpg", alt: "Technology and innovation session" },
+  { src: "/images/blog/blog-03.jpg", alt: "Students collaborating" },
+  { src: "/images/blog/post-01.jpg", alt: "Academic event" },
+  { src: "/images/blog/post-02.jpg", alt: "Workshop and networking" },
+] as const;
+
 const AboutSectionOne = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -71,6 +81,46 @@ const AboutSectionOne = () => {
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-64 w-[34rem] -translate-x-1/2 rounded-full bg-amber-200/25 blur-3xl dark:bg-amber-400/[0.05]" />
 
       <div className="container relative z-10 px-4">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 pb-28 lg:grid-cols-2 lg:gap-20 lg:pb-40">
+          <div className="about-reveal about-intro-copy">
+            <p className="text-xs font-semibold uppercase tracking-[0.34em] text-amber-600 dark:text-amber-400">About HEC FA</p>
+            <h2 className="mt-5 text-3xl font-extrabold tracking-[-0.05em] text-slate-900 dark:text-white md:text-4xl">Explore HEC Finance Academy</h2>
+            <div className="mt-7 space-y-5 text-base leading-8 text-slate-600 dark:text-slate-300">
+              <p>
+                HEC Finance Academy aims to spread <span className="intro-highlight">financial literacy</span> by introducing interested students to the fundamentals of finance.
+              </p>
+              <p>
+                As the first student club at IHEC Carthage with a dedicated <span className="intro-highlight">IT</span> department, HEC FA creates a unique environment where <span className="intro-highlight">Finance</span> meets <span className="intro-highlight">Technology</span>.
+              </p>
+              <p>
+                Through workshops, projects, competitions, conferences and networking opportunities, students can explore new fields, gain practical experience and apply and enrich the knowledge they develop beyond the classroom.
+              </p>
+            </div>
+            <p className="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 dark:text-blue-200 sm:text-sm sm:tracking-[0.28em]">
+              Finance <span className="mx-1 text-amber-500">×</span> Technology <span className="mx-1 text-amber-500">×</span> Data <span className="mx-1 text-amber-500">×</span> Innovation
+            </p>
+          </div>
+
+          <div className="about-reveal about-delay-1 gallery-frame" aria-label="HEC FA activity gallery">
+            <div className="gallery-fade gallery-fade-top" />
+            <div className="gallery-fade gallery-fade-bottom" />
+            <div className="gallery-column gallery-column-up">
+              {[...galleryImages.slice(0, 3), ...galleryImages.slice(0, 3)].map((image, index) => (
+                <div className="gallery-image" key={`up-${image.src}-${index}`}>
+                  <img src={image.src} alt={image.alt} loading="lazy" />
+                </div>
+              ))}
+            </div>
+            <div className="gallery-column gallery-column-down">
+              {[...galleryImages.slice(3), ...galleryImages.slice(3)].map((image, index) => (
+                <div className="gallery-image" key={`down-${image.src}-${index}`}>
+                  <img src={image.src} alt={image.alt} loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <header className="about-reveal mx-auto max-w-3xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.34em] text-amber-600 dark:text-amber-400">HEC Finance Academy</p>
           <h2 className="mt-5 text-3xl font-extrabold tracking-[-0.05em] text-slate-900 dark:text-white md:text-4xl">The numbers behind our story</h2>
@@ -161,10 +211,103 @@ const AboutSectionOne = () => {
         .achievement-rule-blue { background: #60a5fa; }
         .about-number { text-shadow: 0 0 22px rgba(245, 183, 64, 0.12); }
 
+        .intro-highlight {
+          color: #b45309;
+          font-weight: 600;
+          text-decoration: underline;
+          text-decoration-color: rgba(245, 158, 11, 0.45);
+          text-underline-offset: 4px;
+        }
+
+        :global(.dark) .intro-highlight {
+          color: #fbbf24;
+        }
+
+        .gallery-frame {
+          position: relative;
+          display: grid;
+          height: 30rem;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 1rem;
+          overflow: hidden;
+          -webkit-mask-image: linear-gradient(to bottom, transparent, black 9%, black 91%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, black 9%, black 91%, transparent);
+        }
+
+        .gallery-column {
+          display: flex;
+          min-width: 0;
+          flex-direction: column;
+          gap: 1rem;
+          align-self: flex-start;
+        }
+
+        .gallery-column-up { animation: galleryUp 32s linear infinite; }
+        .gallery-column-down { animation: galleryDown 36s linear infinite; transform: translateY(-50%); }
+        .gallery-column:hover { animation-play-state: paused; }
+
+        .gallery-image {
+          aspect-ratio: 1 / 1.12;
+          overflow: hidden;
+          border: 1px solid #cbd5e1;
+          border-radius: 1rem;
+          background: #e2e8f0;
+        }
+
+        :global(.dark) .gallery-image {
+          border-color: rgba(30, 58, 117, 0.6);
+          background: #0c1e47;
+        }
+
+        .gallery-image img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          transition: filter 500ms ease, transform 500ms ease;
+        }
+
+        .gallery-image:hover img {
+          filter: brightness(1.08);
+          transform: scale(1.04);
+        }
+
+        .gallery-fade {
+          pointer-events: none;
+          position: absolute;
+          z-index: 2;
+          right: 0;
+          left: 0;
+          height: 22%;
+        }
+
+        .gallery-fade-top {
+          top: 0;
+          background: linear-gradient(to bottom, #f8fafc, transparent);
+        }
+
+        .gallery-fade-bottom {
+          bottom: 0;
+          background: linear-gradient(to top, #f8fafc, transparent);
+        }
+
+        :global(.dark) .gallery-fade-top { background: linear-gradient(to bottom, #030d26, transparent); }
+        :global(.dark) .gallery-fade-bottom { background: linear-gradient(to top, #030d26, transparent); }
+
+        @keyframes galleryUp {
+          from { transform: translateY(0); }
+          to { transform: translateY(-50%); }
+        }
+
+        @keyframes galleryDown {
+          from { transform: translateY(-50%); }
+          to { transform: translateY(0); }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-          .about-reveal, .about-card, .achievement-rule { transition: none; }
+          .about-reveal, .about-card, .achievement-rule, .gallery-image img { transition: none; }
           .about-reveal { opacity: 1; transform: none; }
           .about-card:hover { transform: none; }
+          .gallery-column { animation: none; transform: none; }
         }
       `}</style>
     </section>
