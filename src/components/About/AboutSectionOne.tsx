@@ -41,6 +41,47 @@ const galleryImages = [
   { src: "/images/hecfa-achivments/587031636_18413341165140268_7329107051791474267_n.jpg", alt: "HEC FA academic gathering" },
 ] as const;
 
+const socialLinks = [
+  { name: "Instagram", href: "https://www.instagram.com/hec_finance_academy/", icon: "instagram" },
+  { name: "Facebook", href: "https://www.facebook.com/HEC.Finance.Academy", icon: "facebook" },
+  { name: "TikTok", href: "https://www.tiktok.com/@hec_fa", icon: "tiktok" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/company/hec-finance-academy/", icon: "linkedin" },
+] as const;
+
+const SocialIcon = ({ name }: { name: (typeof socialLinks)[number]["icon"] }) => {
+  if (name === "instagram") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth="1.8">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.4" cy="6.7" r="1" className="fill-current stroke-none" />
+      </svg>
+    );
+  }
+
+  if (name === "facebook") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+        <path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.6 1.7-1.6h1.8V3.8c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2V10H8v3h2.5v8h3Z" />
+      </svg>
+    );
+  }
+
+  if (name === "tiktok") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+        <path d="M15.2 3c.2 1.7 1.2 2.8 2.9 3.2v2.8a7.3 7.3 0 0 1-2.9-.9v5.7a5.2 5.2 0 1 1-4.5-5.1v2.9a2.3 2.3 0 1 0 1.6 2.2V3h2.9Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+      <path d="M5.2 8.3A1.7 1.7 0 1 0 5.2 5a1.7 1.7 0 0 0 0 3.3ZM3.7 9.7h3v9.6h-3V9.7Zm4.8 0h2.9V11h.1c.4-.8 1.5-1.7 3.2-1.7 3.4 0 4 2.2 4 5v5h-3v-4.4c0-1.1 0-2.6-1.6-2.6s-1.9 1.2-1.9 2.5v4.5h-3V9.7Z" />
+    </svg>
+  );
+};
+
 const AboutSectionOne = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -153,6 +194,34 @@ const AboutSectionOne = () => {
             </article>
           ))}
         </div>
+
+        <div className={`social-section about-reveal about-delay-6 mx-auto mt-28 max-w-5xl border-t border-blue-200/80 pt-16 text-center dark:border-blue-900/80 md:mt-36`}>
+          <div className="social-watermark" aria-hidden="true">
+            <img src="/images/logo/logo.svg" alt="" />
+          </div>
+          <div className="relative z-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-400">Stay connected</p>
+            <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-slate-900 dark:text-white sm:text-3xl">Connect with HEC Finance Academy</h2>
+            <p className="mt-4 text-sm text-slate-600 dark:text-slate-300">Follow us and stay connected.</p>
+
+            <div className="mx-auto mt-9 grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-card group flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white/70 px-5 py-4 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-sm transition duration-500 hover:-translate-y-1 hover:scale-[1.01] hover:border-blue-400 hover:text-blue-700 hover:shadow-blue-200/50 dark:border-[#1e3a75] dark:bg-[#0c1e47]/70 dark:text-slate-200 dark:hover:border-amber-400/70 dark:hover:text-amber-300 dark:hover:shadow-amber-400/10"
+                >
+                  <span className="text-blue-700 transition duration-500 group-hover:text-amber-500 dark:text-blue-200 dark:group-hover:text-amber-300">
+                    <SocialIcon name={social.icon} />
+                  </span>
+                  <span>{social.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <style jsx>{`
@@ -212,6 +281,47 @@ const AboutSectionOne = () => {
         .achievement-rule-amber { background: #fbbf24; }
         .achievement-rule-blue { background: #60a5fa; }
         .about-number { text-shadow: 0 0 22px rgba(245, 183, 64, 0.12); }
+
+        .social-card { box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05); }
+
+        .social-card:hover { box-shadow: 0 18px 42px rgba(37, 99, 235, 0.12); }
+
+        .social-section { position: relative; isolation: isolate; }
+
+        .social-watermark {
+          pointer-events: none;
+          position: absolute;
+          z-index: 0;
+          top: -12rem;
+          left: 50%;
+          width: min(60rem, 96vw);
+          height: 34rem;
+          transform: translateX(-50%);
+          opacity: 0.2;
+          filter: drop-shadow(0 0 28px rgba(59, 130, 246, 0.55)) drop-shadow(0 0 34px rgba(245, 183, 64, 0.28));
+        }
+
+        .social-watermark::after {
+          content: "";
+          position: absolute;
+          inset: 12% 8%;
+          border-radius: 999px;
+          background: radial-gradient(ellipse, rgba(59, 130, 246, 0.36), rgba(245, 183, 64, 0.08) 44%, transparent 72%);
+          filter: blur(26px);
+          z-index: -1;
+        }
+
+        .social-watermark img {
+          position: absolute;
+          inset: 0;
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+        }
+
+        @media (max-width: 639px) {
+          .social-watermark { top: -8rem; height: 25rem; width: 135vw; opacity: 0.16; }
+        }
 
         .intro-highlight {
           color: #b45309;
@@ -306,9 +416,10 @@ const AboutSectionOne = () => {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .about-reveal, .about-card, .achievement-rule, .gallery-image img { transition: none; }
+          .about-reveal, .about-card, .achievement-rule, .gallery-image img, .social-card { transition: none; }
           .about-reveal { opacity: 1; transform: none; }
           .about-card:hover { transform: none; }
+          .social-card:hover { transform: none; }
           .gallery-column { animation: none; transform: none; }
         }
       `}</style>
