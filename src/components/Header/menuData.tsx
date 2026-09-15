@@ -15,30 +15,24 @@ const menuData: Menu[] = [
   },
   {
     id: 3,
-    title: "Bureau",
-    path: "/#bureau",
+    title: "Partners",
+    path: "/#partnerships",
     newTab: false,
   },
   {
     id: 4,
+    title: "Executive Board",
+    path: "/#bureau",
+    newTab: false,
+  },
+  {
+    id: 5,
     title: "Events",
     path: "/#events",
     newTab: false,
   },
   {
-    id: 5,
-    title: "Partnerships",
-    path: "/#partnerships",
-    newTab: false,
-  },
-  {
     id: 6,
-    title: "Gallery",
-    path: "/#gallery",
-    newTab: false,
-  },
-  {
-    id: 7,
     title: "Contact",
     path: "/#contact",
     newTab: false,

@@ -197,7 +197,8 @@ const AboutSectionOne = () => {
 
         <div className={`social-section about-reveal about-delay-6 mx-auto mt-28 max-w-5xl border-t border-blue-200/80 pt-16 text-center dark:border-blue-900/80 md:mt-36`}>
           <div className="social-watermark" aria-hidden="true">
-            <img src="/images/logo/logo.svg" alt="" />
+            <img src="/images/logo/logo2.svg" alt="" className="social-watermark-light" />
+            <img src="/images/logo/logo.svg" alt="" className="social-watermark-dark" />
           </div>
           <div className="relative z-10">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-400">Stay connected</p>
@@ -318,6 +319,12 @@ const AboutSectionOne = () => {
           width: 100%;
           object-fit: contain;
         }
+
+        .social-watermark-light { display: block; }
+        .social-watermark-dark { display: none; }
+
+        :global(.dark) .social-watermark-light { display: none; }
+        :global(.dark) .social-watermark-dark { display: block; }
 
         @media (max-width: 639px) {
           .social-watermark { top: -8rem; height: 25rem; width: 135vw; opacity: 0.16; }

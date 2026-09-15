@@ -25,12 +25,13 @@ const Header = () => {
 
   return (
     <header
-      className={`header fixed top-0 left-0 z-40 w-full transition-all duration-500 ${sticky ? "py-3" : "py-5"}`}
+      className={`header fixed top-0 left-0 z-40 w-full transition-all duration-500 ${sticky ? "py-4" : "py-6"}`}
     >
       <div className="container">
-        <div className={`relative grid grid-cols-[1fr_auto] items-center rounded-full border px-5 transition-all duration-500 sm:px-7 lg:grid-cols-[1fr_auto_1fr] ${sticky ? "border-white/40 bg-white/85 py-2 shadow-lg shadow-slate-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/85" : "border-white/30 bg-white/65 py-3 shadow-md shadow-slate-900/5 backdrop-blur-lg dark:border-white/10 dark:bg-slate-950/60"}`}>
-          <Link href="/#home" aria-label="HEC FA home" className="header-logo flex w-fit shrink-0 translate-y-[-8px] animate-[navLogoIn_700ms_ease-out_forwards] opacity-0">
-            <Image src="/images/logo/logo-2.svg" alt="HEC FA" width={138} height={27} priority className="h-[27px] w-[138px]" />
+        <div className={`relative grid grid-cols-[1fr_auto] items-center rounded-full border px-7 transition-all duration-500 sm:px-9 lg:grid-cols-[1fr_auto_1fr] ${sticky ? "border-white/40 bg-white/85 py-4 shadow-lg shadow-slate-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/85" : "border-white/30 bg-white/65 py-5 shadow-md shadow-slate-900/5 backdrop-blur-lg dark:border-white/10 dark:bg-slate-950/60"}`}>
+          <Link href="/#home" aria-label="HEC FA home" className="header-logo flex w-fit shrink-0 animate-[navLogoIn_700ms_ease-out_forwards] opacity-0">
+            <Image src="/images/logo/logo2.svg" alt="HEC FA" width={190} height={37} priority className="h-[37px] w-[190px] max-w-[48vw] object-contain dark:hidden sm:h-[40px] sm:w-[204px]" />
+            <Image src="/images/logo/logo.svg" alt="HEC FA" width={190} height={37} priority className="hidden h-[37px] w-[190px] max-w-[48vw] object-contain dark:block sm:h-[40px] sm:w-[204px]" />
           </Link>
 
           <div className="flex items-center justify-end gap-2 lg:col-start-3">
@@ -43,14 +44,14 @@ const Header = () => {
           </div>
 
           <nav id="navbarCollapse" aria-label="Primary navigation" className={`absolute top-[calc(100%+0.75rem)] right-0 left-0 rounded-3xl border border-white/40 bg-white/90 p-4 shadow-xl shadow-slate-900/10 backdrop-blur-xl transition-[opacity,transform,visibility] duration-300 lg:relative lg:top-auto lg:col-start-2 lg:row-start-1 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none lg:backdrop-blur-none dark:border-white/10 dark:bg-slate-950/90 lg:dark:bg-transparent ${navbarOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0 lg:visible lg:translate-y-0 lg:opacity-100"}`}>
-            <ul className="flex flex-col gap-1 lg:flex-row lg:items-center lg:justify-center lg:gap-1">
+            <ul className="flex flex-col gap-1 lg:flex-row lg:items-center lg:justify-center lg:gap-3">
               {menuData.map((menuItem, index) => {
                 const anchor = menuItem.path?.split("#")[1];
                 const isActive = anchor ? pathname === "/" && typeof window !== "undefined" && window.location.hash === `#${anchor}` : pathname === menuItem.path;
 
                 return (
                   <li key={menuItem.id} style={{ animationDelay: `${150 + index * 55}ms` }} className="animate-[navLinkIn_600ms_ease-out_both]">
-                    <Link href={menuItem.path ?? "/"} onClick={() => setNavbarOpen(false)} className={`group relative flex items-center rounded-full px-3 py-2.5 text-sm font-medium tracking-[0.01em] transition-colors duration-300 lg:py-2 ${isActive ? "text-blue-700 dark:text-blue-300" : "text-slate-700 hover:text-blue-700 dark:text-slate-200 dark:hover:text-blue-300"}`}>
+                    <Link href={menuItem.path ?? "/"} onClick={() => setNavbarOpen(false)} className={`group relative flex items-center rounded-full px-4 py-3 text-base font-medium tracking-[0.01em] transition-colors duration-300 lg:py-3 ${isActive ? "text-blue-700 dark:text-blue-300" : "text-slate-700 hover:text-blue-700 dark:text-slate-200 dark:hover:text-blue-300"}`}>
                       {menuItem.title}
                       <span className={`absolute right-4 bottom-1 left-4 h-px origin-left scale-x-0 bg-blue-600 transition-transform duration-300 group-hover:scale-x-100 ${isActive ? "scale-x-100" : ""}`} />
                     </Link>
