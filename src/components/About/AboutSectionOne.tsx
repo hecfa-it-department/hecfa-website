@@ -29,14 +29,16 @@ const achievements = [
   },
 ] as const;
 
-// Replace these local placeholders with official HEC FA photos when available.
+// Official HEC FA photos for the animated gallery.
 const galleryImages = [
-  { src: "/images/blog/blog-01.jpg", alt: "Finance learning session" },
-  { src: "/images/video/video.jpg", alt: "HEC FA event atmosphere" },
-  { src: "/images/blog/blog-02.jpg", alt: "Technology and innovation session" },
-  { src: "/images/blog/blog-03.jpg", alt: "Students collaborating" },
-  { src: "/images/blog/post-01.jpg", alt: "Academic event" },
-  { src: "/images/blog/post-02.jpg", alt: "Workshop and networking" },
+  { src: "/images/hecfa-achivments/image.webp", alt: "HEC FA student gathering" },
+  { src: "/images/hecfa-achivments/image (1).webp", alt: "HEC FA conference" },
+  { src: "/images/hecfa-achivments/image (2).webp", alt: "HEC FA academic event" },
+  { src: "/images/hecfa-achivments/2.png", alt: "HEC FA workshop" },
+  { src: "/images/hecfa-achivments/7.png", alt: "HEC FA community event" },
+  { src: "/images/hecfa-achivments/image (4).webp", alt: "HEC FA student activity" },
+  { src: "/images/hecfa-achivments/479928586_18375067828140268_8218381010391100954_n.jpg", alt: "HEC FA networking event" },
+  { src: "/images/hecfa-achivments/587031636_18413341165140268_7329107051791474267_n.jpg", alt: "HEC FA academic gathering" },
 ] as const;
 
 const AboutSectionOne = () => {
