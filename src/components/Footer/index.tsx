@@ -1,433 +1,266 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+
+const navigationLinks = [
+  ["Home", "/#home"],
+  ["About", "#about"],
+  ["Bureau", "#executive-board"],
+  ["Events", "/#events"],
+  ["Partnerships", "#partners"],
+  ["Gallery", "/#gallery"],
+  ["Contact", "/#contact"],
+] as const;
+
+const socialLinks = [
+  ["Instagram", "https://www.instagram.com/hec_finance_academy/"],
+  ["Facebook", "https://www.facebook.com/HEC.Finance.Academy"],
+  ["TikTok", "https://www.tiktok.com/@hec_fa"],
+  ["LinkedIn", "https://www.linkedin.com/company/hec-finance-academy/"],
+] as const;
+
+const contactItems = [
+  ["Email", "hec.financeacademy@gmail.com", "mailto:hec.financeacademy@gmail.com"],
+  ["Phone", "+216 24 710 928", "tel:+21624710928"],
+  ["Location", "IHEC Carthage, Tunis", "https://www.google.com/maps/search/?api=1&query=IHEC+Carthage+Tunis"],
+] as const;
+
+const ContactIcon = ({ type }: { type: "Email" | "Phone" | "Location" }) => {
+  if (type === "Email") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth="1.6">
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="m4 7 8 6 8-6" />
+      </svg>
+    );
+  }
+
+  if (type === "Phone") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth="1.6">
+        <path d="M7.2 3.5 5 4.8a2 2 0 0 0-.9 2.4c1.7 5.9 5.8 10 11.7 11.7a2 2 0 0 0 2.4-.9l1.3-2.2-4.1-2.2-1.4 1.6a12.3 12.3 0 0 1-5.2-5.2l1.6-1.4-2.2-4.1Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth="1.6">
+      <path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z" />
+      <circle cx="12" cy="9" r="2.2" />
+    </svg>
+  );
+};
+
+const SocialIcon = ({ label }: { label: string }) => (
+  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+    {label === "Instagram" && (
+      <>
+        <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <circle cx="17.3" cy="6.7" r="1" />
+      </>
+    )}
+    {label === "Facebook" && <path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.6 1.7-1.6h1.8V3.8c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2V10H8v3h2.5v8h3Z" />}
+    {label === "TikTok" && <path d="M15.2 3c.2 1.7 1.2 2.8 2.9 3.2v2.8a7.3 7.3 0 0 1-2.9-.9v5.7a5.2 5.2 0 1 1-4.5-5.1v2.9a2.3 2.3 0 1 0 1.6 2.2V3h2.9Z" />}
+    {label === "LinkedIn" && <path d="M5.2 8.3A1.7 1.7 0 1 0 5.2 5a1.7 1.7 0 0 0 0 3.3ZM3.7 9.7h3v9.6h-3V9.7Zm4.8 0h2.9V11h.1c.4-.8 1.5-1.7 3.2-1.7 3.4 0 4 2.2 4 5v5h-3v-4.4c0-1.1 0-2.6-1.6-2.6s-1.9 1.2-1.9 2.5v4.5h-3V9.7Z" />}
+  </svg>
+);
 
 const Footer = () => {
+  const footerRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotionPreference = () => setReduceMotion(mediaQuery.matches);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.12 },
+    );
+
+    updateMotionPreference();
+    mediaQuery.addEventListener("change", updateMotionPreference);
+    if (footerRef.current) observer.observe(footerRef.current);
+
+    return () => {
+      observer.disconnect();
+      mediaQuery.removeEventListener("change", updateMotionPreference);
+    };
+  }, []);
+
+  const reveal = reduceMotion || isVisible;
+
   return (
-    <>
-      <footer className="relative z-10 bg-white pt-16 dark:bg-gray-dark md:pt-20 lg:pt-24">
-        <div className="container">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
-              <div className="mb-12 max-w-[360px] lg:mb-16">
-                <Link href="/" className="mb-8 inline-block">
-                  <Image
-                    src="/images/logo/logo-2.svg"
-                    alt="logo"
-                    className="w-full dark:hidden"
-                    width={140}
-                    height={30}
-                  />
-                  <Image
-                    src="/images/logo/logo.svg"
-                    alt="logo"
-                    className="hidden w-full dark:block"
-                    width={140}
-                    height={30}
-                  />
-                </Link>
-                <p className="mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Integer lobortis.
-                </p>
-                <div className="flex items-center">
-                  <a
-                    href="/"
-                    aria-label="social-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mr-6 text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 22 22"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M12.1 10.4939V7.42705C12.1 6.23984 13.085 5.27741 14.3 5.27741H16.5V2.05296L13.5135 1.84452C10.9664 1.66676 8.8 3.63781 8.8 6.13287V10.4939H5.5V13.7183H8.8V20.1667H12.1V13.7183H15.4L16.5 10.4939H12.1Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </a>
-                  <a
-                    href="/"
-                    aria-label="social-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mr-6 text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 22 22"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M13.9831 19.25L9.82094 13.3176L4.61058 19.25H2.40625L8.843 11.9233L2.40625 2.75H8.06572L11.9884 8.34127L16.9034 2.75H19.1077L12.9697 9.73737L19.6425 19.25H13.9831ZM16.4378 17.5775H14.9538L5.56249 4.42252H7.04674L10.808 9.6899L11.4584 10.6039L16.4378 17.5775Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </a>
-                  <a
-                    href="/"
-                    aria-label="social-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mr-6 text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                  >
-                    <svg
-                      width="18"
-                      height="14"
-                      viewBox="0 0 18 14"
-                      className="fill-current"
-                    >
-                      <path d="M17.5058 2.07119C17.3068 1.2488 16.7099 0.609173 15.9423 0.395963C14.5778 7.26191e-08 9.0627 0 9.0627 0C9.0627 0 3.54766 7.26191e-08 2.18311 0.395963C1.41555 0.609173 0.818561 1.2488 0.619565 2.07119C0.25 3.56366 0.25 6.60953 0.25 6.60953C0.25 6.60953 0.25 9.68585 0.619565 11.1479C0.818561 11.9703 1.41555 12.6099 2.18311 12.8231C3.54766 13.2191 9.0627 13.2191 9.0627 13.2191C9.0627 13.2191 14.5778 13.2191 15.9423 12.8231C16.7099 12.6099 17.3068 11.9703 17.5058 11.1479C17.8754 9.68585 17.8754 6.60953 17.8754 6.60953C17.8754 6.60953 17.8754 3.56366 17.5058 2.07119ZM7.30016 9.44218V3.77687L11.8771 6.60953L7.30016 9.44218Z" />
-                    </svg>
-                  </a>
-                  <a
-                    href="/"
-                    aria-label="social-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                  >
-                    <svg
-                      width="17"
-                      height="16"
-                      viewBox="0 0 17 16"
-                      className="fill-current"
-                    >
-                      <path d="M15.2196 0H1.99991C1.37516 0 0.875366 0.497491 0.875366 1.11936V14.3029C0.875366 14.8999 1.37516 15.4222 1.99991 15.4222H15.1696C15.7943 15.4222 16.2941 14.9247 16.2941 14.3029V1.09448C16.3441 0.497491 15.8443 0 15.2196 0ZM5.44852 13.1089H3.17444V5.7709H5.44852V13.1089ZM4.29899 4.75104C3.54929 4.75104 2.97452 4.15405 2.97452 3.43269C2.97452 2.71133 3.57428 2.11434 4.29899 2.11434C5.02369 2.11434 5.62345 2.71133 5.62345 3.43269C5.62345 4.15405 5.07367 4.75104 4.29899 4.75104ZM14.07 13.1089H11.796V9.55183C11.796 8.7061 11.771 7.58674 10.5964 7.58674C9.39693 7.58674 9.222 8.53198 9.222 9.47721V13.1089H6.94792V5.7709H9.17202V6.79076H9.19701C9.52188 6.19377 10.2466 5.59678 11.3711 5.59678C13.6952 5.59678 14.12 7.08925 14.12 9.12897V13.1089H14.07Z" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
+    <footer ref={footerRef} className={`hecfa-footer ${reveal ? "footer-visible" : ""}`}>
+      <div className="footer-network" aria-hidden="true">
+        <span className="network-line network-line-one" />
+        <span className="network-line network-line-two" />
+        <span className="network-line network-line-three" />
+        <span className="network-node network-node-one" />
+        <span className="network-node network-node-two" />
+        <span className="network-node network-node-three" />
+      </div>
+      <div className="footer-divider" />
 
-            <div className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
-              <div className="mb-12 lg:mb-16">
-                <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
-                  Useful Links
-                </h2>
-                <ul>
-                  <li>
-                    <Link
-                      href="/blog"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      Blog
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      Pricing
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/about"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      About
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
-              <div className="mb-12 lg:mb-16">
-                <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
-                  Terms
-                </h2>
-                <ul>
-                  <li>
-                    <Link
-                      href="/"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      TOS
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      Refund Policy
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-3/12">
-              <div className="mb-12 lg:mb-16">
-                <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
-                  Support & Help
-                </h2>
-                <ul>
-                  <li>
-                    <Link
-                      href="/contact"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      Open Support Ticket
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      Terms of Use
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/about"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      About
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="h-px w-full bg-linear-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183]"></div>
-          <div className="py-8">
-            <p className="text-center text-base text-body-color dark:text-white">
-              Template by{" "}
-              <a
-                href="http://uideck.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary"
-              >
-                UIdeck
-              </a>{" "}
-              and{" "}
-              <a
-                href="https://nextjstemplates.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary"
-              >
-                Next.js Templates
-              </a>
+      <div className="container relative z-10 px-4 py-14 sm:py-16">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+          <div className="footer-column footer-reveal">
+            <Link href="/#home" aria-label="HEC Finance Academy home" className="inline-block">
+              <Image src="/images/logo/logo2.svg" alt="HEC Finance Academy" width={220} height={55} className="h-auto w-[170px] dark:hidden sm:w-[185px]" />
+              <Image src="/images/logo/logo.svg" alt="HEC Finance Academy" width={220} height={55} className="hidden h-auto w-[170px] dark:block sm:w-[185px]" />
+            </Link>
+            <h2 className="mt-5 text-lg font-semibold text-slate-900 dark:text-white">HEC Finance Academy</h2>
+            <p className="mt-3 max-w-xs text-sm leading-7 text-slate-600 dark:text-slate-400">
+              A student club at IHEC Carthage where finance, technology, data and innovation meet.
             </p>
           </div>
+
+          <div className="footer-column footer-reveal footer-delay-1">
+            <h2 className="footer-heading">Quick Navigation</h2>
+            <nav aria-label="Footer navigation" className="mt-5 grid grid-cols-2 gap-x-5 gap-y-3">
+              {navigationLinks.map(([label, href]) => (
+                <a key={label} href={href} className="footer-link text-sm text-slate-600 transition duration-300 hover:text-hecfa-yellow dark:text-slate-400">
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          <div className="footer-column footer-reveal footer-delay-2">
+            <h2 className="footer-heading">Nos Contacts</h2>
+            <div className="mt-5 space-y-4">
+              {contactItems.map(([label, value, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={label === "Location" ? "_blank" : undefined}
+                  rel={label === "Location" ? "noopener noreferrer" : undefined}
+                  className="footer-contact-link flex items-start gap-3 text-sm text-slate-600 transition duration-300 hover:text-hecfa-yellow dark:text-slate-400"
+                >
+                  <span className="mt-0.5 shrink-0 text-hecfa-yellow"><ContactIcon type={label} /></span>
+                  <span>{value}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div className="footer-column footer-reveal footer-delay-3">
+            <h2 className="footer-heading">Follow Us</h2>
+            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-3">
+              {socialLinks.map(([label, href]) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Follow HEC Finance Academy on ${label}`} className="footer-social flex items-center gap-2 text-sm text-slate-600 transition duration-300 hover:-translate-y-0.5 hover:text-hecfa-yellow dark:text-slate-400">
+                  <SocialIcon label={label} />
+                  <span>{label}</span>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="absolute right-0 top-14 z-[-1]">
-          <svg
-            width="55"
-            height="99"
-            viewBox="0 0 55 99"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle opacity="0.8" cx="49.5" cy="49.5" r="49.5" fill="#959CB1" />
-            <mask
-              id="mask0_94:899"
-              style={{ maskType: "alpha" }}
-              maskUnits="userSpaceOnUse"
-              x="0"
-              y="0"
-              width="99"
-              height="99"
-            >
-              <circle
-                opacity="0.8"
-                cx="49.5"
-                cy="49.5"
-                r="49.5"
-                fill="#4A6CF7"
-              />
-            </mask>
-            <g mask="url(#mask0_94:899)">
-              <circle
-                opacity="0.8"
-                cx="49.5"
-                cy="49.5"
-                r="49.5"
-                fill="url(#paint0_radial_94:899)"
-              />
-              <g opacity="0.8" filter="url(#filter0_f_94:899)">
-                <circle cx="53.8676" cy="26.2061" r="20.3824" fill="white" />
-              </g>
-            </g>
-            <defs>
-              <filter
-                id="filter0_f_94:899"
-                x="12.4852"
-                y="-15.1763"
-                width="82.7646"
-                height="82.7646"
-                filterUnits="userSpaceOnUse"
-                colorInterpolationFilters="sRGB"
-              >
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="BackgroundImageFix"
-                  result="shape"
-                />
-                <feGaussianBlur
-                  stdDeviation="10.5"
-                  result="effect1_foregroundBlur_94:899"
-                />
-              </filter>
-              <radialGradient
-                id="paint0_radial_94:899"
-                cx="0"
-                cy="0"
-                r="1"
-                gradientUnits="userSpaceOnUse"
-                gradientTransform="translate(49.5 49.5) rotate(90) scale(53.1397)"
-              >
-                <stop stopOpacity="0.47" />
-                <stop offset="1" stopOpacity="0" />
-              </radialGradient>
-            </defs>
-          </svg>
+
+        <div className="footer-bottom mt-12 flex flex-col gap-2 border-t border-slate-200 pt-5 text-xs text-slate-500 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 HEC Finance Academy. All rights reserved.</p>
+          <p>Made with passion by HEC Finance Academy IT Team</p>
         </div>
-        <div className="absolute bottom-24 left-0 z-[-1]">
-          <svg
-            width="79"
-            height="94"
-            viewBox="0 0 79 94"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              opacity="0.3"
-              x="-41"
-              y="26.9426"
-              width="66.6675"
-              height="66.6675"
-              transform="rotate(-22.9007 -41 26.9426)"
-              fill="url(#paint0_linear_94:889)"
-            />
-            <rect
-              x="-41"
-              y="26.9426"
-              width="66.6675"
-              height="66.6675"
-              transform="rotate(-22.9007 -41 26.9426)"
-              stroke="url(#paint1_linear_94:889)"
-              strokeWidth="0.7"
-            />
-            <path
-              opacity="0.3"
-              d="M50.5215 7.42229L20.325 1.14771L46.2077 62.3249L77.1885 68.2073L50.5215 7.42229Z"
-              fill="url(#paint2_linear_94:889)"
-            />
-            <path
-              d="M50.5215 7.42229L20.325 1.14771L46.2077 62.3249L76.7963 68.2073L50.5215 7.42229Z"
-              stroke="url(#paint3_linear_94:889)"
-              strokeWidth="0.7"
-            />
-            <path
-              opacity="0.3"
-              d="M17.9721 93.3057L-14.9695 88.2076L46.2077 62.325L77.1885 68.2074L17.9721 93.3057Z"
-              fill="url(#paint4_linear_94:889)"
-            />
-            <path
-              d="M17.972 93.3057L-14.1852 88.2076L46.2077 62.325L77.1884 68.2074L17.972 93.3057Z"
-              stroke="url(#paint5_linear_94:889)"
-              strokeWidth="0.7"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear_94:889"
-                x1="-41"
-                y1="21.8445"
-                x2="36.9671"
-                y2="59.8878"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0.62" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient
-                id="paint1_linear_94:889"
-                x1="25.6675"
-                y1="95.9631"
-                x2="-42.9608"
-                y2="20.668"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0.51" />
-              </linearGradient>
-              <linearGradient
-                id="paint2_linear_94:889"
-                x1="20.325"
-                y1="-3.98039"
-                x2="90.6248"
-                y2="25.1062"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0.62" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient
-                id="paint3_linear_94:889"
-                x1="18.3642"
-                y1="-1.59742"
-                x2="113.9"
-                y2="80.6826"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0.51" />
-              </linearGradient>
-              <linearGradient
-                id="paint4_linear_94:889"
-                x1="61.1098"
-                y1="62.3249"
-                x2="-8.82468"
-                y2="58.2156"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0.62" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient
-                id="paint5_linear_94:889"
-                x1="65.4236"
-                y1="65.0701"
-                x2="24.0178"
-                y2="41.6598"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0.51" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-      </footer>
-    </>
+      </div>
+
+      <style jsx>{`
+        .hecfa-footer {
+          position: relative;
+          overflow: hidden;
+          background: #f8fafc;
+        }
+
+        :global(.dark) .hecfa-footer { background: #030d26; }
+
+        .footer-network {
+          pointer-events: none;
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          opacity: 0.28;
+        }
+
+        :global(.dark) .footer-network { opacity: 0.4; }
+
+        .footer-network::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(circle at 20% 35%, rgba(59, 130, 246, 0.12), transparent 28%), radial-gradient(circle at 80% 70%, rgba(245, 197, 66, 0.08), transparent 24%);
+        }
+
+        .network-line {
+          position: absolute;
+          height: 1px;
+          width: 125%;
+          background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.32), rgba(245, 197, 66, 0.24), transparent);
+          transform: rotate(-8deg);
+          animation: networkMove 18s linear infinite;
+        }
+
+        .network-line-one { top: 28%; left: -12%; }
+        .network-line-two { top: 58%; left: -8%; animation-duration: 24s; animation-delay: -8s; transform: rotate(7deg); }
+        .network-line-three { top: 78%; left: -15%; animation-duration: 28s; animation-delay: -14s; transform: rotate(-3deg); }
+
+        .network-node {
+          position: absolute;
+          height: 4px;
+          width: 4px;
+          border-radius: 999px;
+          background: var(--hecfa-yellow);
+          box-shadow: 0 0 10px rgba(245, 197, 66, 0.35);
+          animation: nodePulse 4s ease-in-out infinite;
+        }
+
+        .network-node-one { top: 28%; left: 26%; }
+        .network-node-two { top: 58%; left: 71%; animation-delay: -1.5s; }
+        .network-node-three { top: 78%; left: 44%; animation-delay: -2.5s; }
+
+        .footer-divider {
+          position: relative;
+          z-index: 1;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, var(--hecfa-yellow), transparent);
+          opacity: 0.65;
+          transform: scaleX(0);
+          transform-origin: center;
+          transition: transform 800ms ease;
+        }
+
+        .footer-visible .footer-divider { transform: scaleX(1); }
+        .footer-heading { color: #0f172a; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+        :global(.dark) .footer-heading { color: white; }
+        .footer-reveal { opacity: 0; transform: translateY(10px); transition: opacity 600ms ease, transform 600ms ease; }
+        .footer-visible .footer-reveal { opacity: 1; transform: translateY(0); }
+        .footer-delay-1 { transition-delay: 80ms; }
+        .footer-delay-2 { transition-delay: 160ms; }
+        .footer-delay-3 { transition-delay: 240ms; }
+
+        @keyframes networkMove {
+          from { margin-left: -5%; opacity: 0.35; }
+          50% { opacity: 0.7; }
+          to { margin-left: 5%; opacity: 0.35; }
+        }
+
+        @keyframes nodePulse {
+          0%, 100% { opacity: 0.35; transform: scale(0.8); }
+          50% { opacity: 0.9; transform: scale(1.15); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .network-line, .network-node, .footer-divider, .footer-reveal { animation: none; transition: none; }
+          .footer-divider, .footer-reveal { opacity: 1; transform: none; }
+        }
+      `}</style>
+    </footer>
   );
 };
 
