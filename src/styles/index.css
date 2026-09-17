@@ -20,7 +20,8 @@ layer(base);
   --color-black: #121723;
   --color-dark: #1d2430;
   --color-primary: #4a6cf7;
-  --color-yellow: #fbb040;
+  --color-yellow: var(--hecfa-yellow);
+  --color-hecfa-yellow: var(--hecfa-yellow);
   --color-bg-color-dark: #171c28;
 
   --color-body-color: #788293;
@@ -57,6 +58,10 @@ layer(base);
   --shadow-btn-light: 0px 1px 2px rgba(0, 0, 0, 0.1);
 
   --drop-shadow-three: 0px 5px 15px rgba(6, 8, 15, 0.05);
+}
+
+:root {
+  --hecfa-yellow: #FAD405;
 }
 
 @utility container {

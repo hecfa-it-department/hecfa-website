@@ -42,7 +42,7 @@ const Brands = () => {
 
       <div className="container relative z-10 px-4">
         <header className="partner-reveal mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-amber-600 dark:text-amber-400">Partners &amp; Sponsors</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-hecfa-yellow">Partners &amp; Sponsors</p>
           <h2 className="mt-5 text-4xl font-extrabold tracking-[-0.05em] text-slate-900 dark:text-white sm:text-5xl">Organizations &amp; Companies Who Trusted Us</h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300">
             Building meaningful collaborations with organizations and companies that support our vision, activities, and impact.
@@ -62,7 +62,7 @@ const Brands = () => {
         </div>
 
         <div className="partner-reveal partner-delay-6 mt-14 text-center">
-          <a href="#" className="partner-cta inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-amber-400 active:scale-[0.99]">
+          <a href="#" className="partner-cta inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-hecfa-yellow active:scale-[0.99]">
             Become A Partner <span aria-hidden="true">→</span>
           </a>
         </div>
@@ -97,10 +97,10 @@ const Brands = () => {
         .partner-cta:hover,
         .partner-cta:focus-visible,
         .partner-cta:active {
-          border-color: #fbbf24;
-          background: #fbbf24;
+          border-color: var(--hecfa-yellow);
+          background: var(--hecfa-yellow);
           color: #07152f;
-          box-shadow: 0 12px 32px rgba(245, 183, 64, 0.2);
+          box-shadow: 0 12px 32px color-mix(in srgb, var(--hecfa-yellow) 20%, transparent);
         }
 
         :global(.dark) .partner-cta {
@@ -113,10 +113,10 @@ const Brands = () => {
         :global(.dark) .partner-cta:hover,
         :global(.dark) .partner-cta:focus-visible,
         :global(.dark) .partner-cta:active {
-          border-color: #fbbf24;
-          background: #fbbf24;
+          border-color: var(--hecfa-yellow);
+          background: var(--hecfa-yellow);
           color: #07152f;
-          box-shadow: 0 12px 32px rgba(245, 183, 64, 0.22);
+          box-shadow: 0 12px 32px color-mix(in srgb, var(--hecfa-yellow) 22%, transparent);
         }
 
         @media (prefers-reduced-motion: reduce) {

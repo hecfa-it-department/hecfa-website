@@ -71,7 +71,7 @@ const ParticleNetwork = () => {
         }
 
         context.fillStyle = `rgba(221, 234, 255, ${first.alpha})`;
-        context.shadowColor = "rgba(245, 183, 64, 0.42)";
+        context.shadowColor = "color-mix(in srgb, var(--hecfa-yellow) 42%, transparent)";
         context.shadowBlur = 7;
         context.beginPath();
         context.arc(first.x, first.y, first.radius, 0, Math.PI * 2);
@@ -213,7 +213,7 @@ const Hero = () => {
 
           <h1 className="hero-fade hero-fade-delay-2 flex w-full flex-col items-center text-[clamp(2.5rem,8vw,6.5rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-slate-50">
             <span className="block">Where</span>
-            <span aria-live="polite" className="mt-5 flex flex-col items-center text-[clamp(2.2rem,7vw,6.5rem)] text-amber-300 drop-shadow-[0_0_22px_rgba(245,183,64,0.22)] sm:mt-6">
+            <span aria-live="polite" className="mt-5 flex flex-col items-center text-[clamp(2.2rem,7vw,6.5rem)] text-hecfa-yellow drop-shadow-[0_0_22px_color-mix(in_srgb,var(--hecfa-yellow)_22%,transparent)] sm:mt-6">
               <span className="inline-grid items-center justify-items-start">
                 <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-nowrap">
                   Technology
@@ -263,7 +263,7 @@ const Hero = () => {
 
         .hero-cursor {
           animation: cursorBlink 1.05s ease-in-out infinite;
-          text-shadow: 0 0 12px rgba(245, 183, 64, 0.72);
+          text-shadow: 0 0 12px color-mix(in srgb, var(--hecfa-yellow) 72%, transparent);
         }
 
         @keyframes heroFadeIn {

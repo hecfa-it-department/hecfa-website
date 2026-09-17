@@ -121,12 +121,12 @@ const AboutSectionOne = () => {
       <div className="about-dots pointer-events-none absolute inset-0" />
       <div className="about-vignette pointer-events-none absolute inset-0" />
       <div className="pointer-events-none absolute left-1/2 top-0 h-[30rem] w-[42rem] -translate-x-1/2 rounded-full bg-blue-200/30 blur-3xl dark:bg-blue-900/20" />
-      <div className="pointer-events-none absolute bottom-0 left-1/2 h-64 w-[34rem] -translate-x-1/2 rounded-full bg-amber-200/25 blur-3xl dark:bg-amber-400/[0.05]" />
+      <div className="pointer-events-none absolute bottom-0 left-1/2 h-64 w-[34rem] -translate-x-1/2 rounded-full bg-hecfa-yellow/25 blur-3xl dark:bg-hecfa-yellow/[0.05]" />
 
       <div className="container relative z-10 px-4">
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 pb-28 lg:grid-cols-2 lg:gap-20 lg:pb-40">
           <div className="about-reveal about-intro-copy">
-            <p className="text-xs font-semibold uppercase tracking-[0.34em] text-amber-600 dark:text-amber-400">About HEC FA</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.34em] text-hecfa-yellow">About HEC FA</p>
             <h2 className="mt-5 text-3xl font-extrabold tracking-[-0.05em] text-slate-900 dark:text-white md:text-4xl">Explore HEC Finance Academy</h2>
             <div className="mt-7 space-y-5 text-base leading-8 text-slate-600 dark:text-slate-300">
               <p>
@@ -140,7 +140,7 @@ const AboutSectionOne = () => {
               </p>
             </div>
             <p className="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 dark:text-blue-200 sm:text-sm sm:tracking-[0.28em]">
-              Finance <span className="mx-1 text-amber-500">×</span> Technology <span className="mx-1 text-amber-500">×</span> Data <span className="mx-1 text-amber-500">×</span> Innovation
+              Finance <span className="mx-1 text-hecfa-yellow">×</span> Technology <span className="mx-1 text-hecfa-yellow">×</span> Data <span className="mx-1 text-hecfa-yellow">×</span> Innovation
             </p>
           </div>
 
@@ -165,7 +165,7 @@ const AboutSectionOne = () => {
         </div>
 
         <header className="about-reveal mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-amber-600 dark:text-amber-400">HEC Finance Academy</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-hecfa-yellow">HEC Finance Academy</p>
           <h2 className="mt-5 text-3xl font-extrabold tracking-[-0.05em] text-slate-900 dark:text-white md:text-4xl">The numbers behind our story</h2>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-300">
             Recognized for excellence, innovation and meaningful impact at IHEC Carthage.
@@ -182,12 +182,12 @@ const AboutSectionOne = () => {
           {achievements.map((achievement, index) => (
             <article
               key={achievement.title}
-              className={`about-card about-reveal about-delay-${index + 2} group relative flex min-h-[292px] flex-col items-center rounded-2xl border bg-white/90 p-8 text-center shadow-lg shadow-slate-200/50 backdrop-blur-sm transition duration-500 hover:-translate-y-1 hover:scale-[1.01] hover:border-blue-400 hover:shadow-blue-200/50 dark:border-[#1e3a75] dark:bg-[#0c1e47]/90 dark:shadow-black/20 dark:hover:border-amber-400/60 dark:hover:shadow-amber-400/10`}
+              className={`about-card about-reveal about-delay-${index + 2} group relative flex min-h-[292px] flex-col items-center rounded-2xl border bg-white/90 p-8 text-center shadow-lg shadow-slate-200/50 backdrop-blur-sm transition duration-500 hover:-translate-y-1 hover:scale-[1.01] hover:border-blue-400 hover:shadow-blue-200/50 dark:border-[#1e3a75] dark:bg-[#0c1e47]/90 dark:shadow-black/20 dark:hover:border-hecfa-yellow/60 dark:hover:shadow-hecfa-yellow/10`}
             >
               <span className={`achievement-rule achievement-rule-${achievement.accent}`} />
               <div className="relative flex flex-1 flex-col items-center">
-                <p className="about-number text-2xl font-bold tracking-[-0.04em] text-amber-600 dark:text-amber-300 md:text-3xl">{achievement.number}</p>
-                <div className="mt-7 h-px w-12 bg-amber-500/70 transition-all duration-500 group-hover:w-20" />
+                <p className="about-number text-2xl font-bold tracking-[-0.04em] text-hecfa-yellow md:text-3xl">{achievement.number}</p>
+                  <div className="mt-7 h-px w-12 bg-hecfa-yellow/70 transition-all duration-500 group-hover:w-20" />
                 <h3 className="mt-6 text-xl font-semibold text-slate-900 dark:text-white">{achievement.title}</h3>
                 <p className="mt-4 max-w-[15rem] text-sm leading-7 text-slate-600 dark:text-slate-300">{achievement.description}</p>
               </div>
@@ -201,7 +201,7 @@ const AboutSectionOne = () => {
             <img src="/images/logo/logo.svg" alt="" className="social-watermark-dark" />
           </div>
           <div className="relative z-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-400">Stay connected</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-hecfa-yellow">Stay connected</p>
             <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-slate-900 dark:text-white sm:text-3xl">Connect with HEC Finance Academy</h2>
             <p className="mt-4 text-sm text-slate-600 dark:text-slate-300">Follow us and stay connected.</p>
 
@@ -212,9 +212,9 @@ const AboutSectionOne = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-card group flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white/70 px-5 py-4 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-sm transition duration-500 hover:-translate-y-1 hover:scale-[1.01] hover:border-blue-400 hover:text-blue-700 hover:shadow-blue-200/50 dark:border-[#1e3a75] dark:bg-[#0c1e47]/70 dark:text-slate-200 dark:hover:border-amber-400/70 dark:hover:text-amber-300 dark:hover:shadow-amber-400/10"
+                  className="social-card group flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white/70 px-5 py-4 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-sm transition duration-500 hover:-translate-y-1 hover:scale-[1.01] hover:border-blue-400 hover:text-blue-700 hover:shadow-blue-200/50 dark:border-[#1e3a75] dark:bg-[#0c1e47]/70 dark:text-slate-200 dark:hover:border-hecfa-yellow/70 dark:hover:text-hecfa-yellow dark:hover:shadow-hecfa-yellow/10"
                 >
-                  <span className="text-blue-700 transition duration-500 group-hover:text-amber-500 dark:text-blue-200 dark:group-hover:text-amber-300">
+                  <span className="text-blue-700 transition duration-500 group-hover:text-hecfa-yellow dark:text-blue-200 dark:group-hover:text-hecfa-yellow">
                     <SocialIcon name={social.icon} />
                   </span>
                   <span>{social.name}</span>
@@ -279,9 +279,9 @@ const AboutSectionOne = () => {
         }
 
         .group:hover .achievement-rule { width: 7rem; }
-        .achievement-rule-amber { background: #fbbf24; }
+        .achievement-rule-amber { background: var(--hecfa-yellow); }
         .achievement-rule-blue { background: #60a5fa; }
-        .about-number { text-shadow: 0 0 22px rgba(245, 183, 64, 0.12); }
+        .about-number { text-shadow: 0 0 22px color-mix(in srgb, var(--hecfa-yellow) 12%, transparent); }
 
         .social-card { box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05); }
 
@@ -299,7 +299,7 @@ const AboutSectionOne = () => {
           height: 34rem;
           transform: translateX(-50%);
           opacity: 0.2;
-          filter: drop-shadow(0 0 28px rgba(59, 130, 246, 0.55)) drop-shadow(0 0 34px rgba(245, 183, 64, 0.28));
+          filter: drop-shadow(0 0 28px rgba(59, 130, 246, 0.55)) drop-shadow(0 0 34px color-mix(in srgb, var(--hecfa-yellow) 28%, transparent));
         }
 
         .social-watermark::after {
@@ -307,7 +307,7 @@ const AboutSectionOne = () => {
           position: absolute;
           inset: 12% 8%;
           border-radius: 999px;
-          background: radial-gradient(ellipse, rgba(59, 130, 246, 0.36), rgba(245, 183, 64, 0.08) 44%, transparent 72%);
+          background: radial-gradient(ellipse, rgba(59, 130, 246, 0.36), color-mix(in srgb, var(--hecfa-yellow) 8%, transparent) 44%, transparent 72%);
           filter: blur(26px);
           z-index: -1;
         }
@@ -334,12 +334,12 @@ const AboutSectionOne = () => {
           color: #b45309;
           font-weight: 600;
           text-decoration: underline;
-          text-decoration-color: rgba(245, 158, 11, 0.45);
+          text-decoration-color: color-mix(in srgb, var(--hecfa-yellow) 45%, transparent);
           text-underline-offset: 4px;
         }
 
         :global(.dark) .intro-highlight {
-          color: #fbbf24;
+          color: var(--hecfa-yellow);
         }
 
         .gallery-frame {

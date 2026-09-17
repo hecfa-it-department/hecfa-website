@@ -1,3 +1,4 @@
+import ExecutiveBoard from "@/components/ExecutiveBoard";
 import AboutSectionOne from "@/components/About/AboutSectionOne";
 import Brands from "@/components/Brands";
 import ScrollUp from "@/components/Common/ScrollUp";
@@ -17,6 +18,7 @@ export default function Home() {
       <Hero />
       <AboutSectionOne />
       <Brands />
+       <ExecutiveBoard />
     </>
   );
 }

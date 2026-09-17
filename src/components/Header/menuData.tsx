@@ -22,7 +22,7 @@ const menuData: Menu[] = [
   {
     id: 4,
     title: "Executive Board",
-    path: "/#bureau",
+    path: "#executive-board",
     newTab: false,
   },
   {
