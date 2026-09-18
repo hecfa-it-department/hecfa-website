@@ -8,7 +8,7 @@ const navigationLinks = [
   ["Home", "/#home"],
   ["About", "#about"],
   ["Bureau", "#executive-board"],
-  ["Events", "/#events"],
+  ["Events", "/events"],
   ["Partnerships", "#partners"],
   ["Gallery", "/#gallery"],
   ["Contact", "/#contact"],

@@ -1,4 +1,5 @@
 import Events from "@/components/Events";
+import EventsScrollReset from "@/components/Events/EventsScrollReset";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function EventsPage() {
-  return <Events />;
+  return (
+    <>
+      <EventsScrollReset />
+      <Events />
+    </>
+  );
 }
