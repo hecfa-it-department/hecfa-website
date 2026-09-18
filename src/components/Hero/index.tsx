@@ -16,6 +16,18 @@ type Particle = {
   vy: number;
   radius: number;
   alpha: number;
+  depth: number;
+  phase: number;
+};
+
+type NetworkShape = {
+  x: number;
+  y: number;
+  size: number;
+  speed: number;
+  rotation: number;
+  rotationSpeed: number;
+  alpha: number;
 };
 
 const ParticleNetwork = () => {
@@ -32,8 +44,19 @@ const ParticleNetwork = () => {
     const pointer = { x: 0, y: 0, active: false };
     let animationFrame = 0;
     let particles: Particle[] = [];
+    let shapes: NetworkShape[] = [];
     let width = 0;
     let height = 0;
+    let elapsed = 0;
+    let lastFrame = 0;
+    let isDark = document.documentElement.classList.contains("dark");
+
+    const themeObserver = new MutationObserver(() => {
+      isDark = document.documentElement.classList.contains("dark");
+      draw();
+    });
+
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
     const createParticles = () => {
       const count = width < 640 ? 30 : width < 1024 ? 46 : 68;
@@ -45,11 +68,50 @@ const ParticleNetwork = () => {
         vy: (Math.random() - 0.5) * 0.12,
         radius: Math.random() * 1.4 + 0.7,
         alpha: Math.random() * 0.35 + 0.35,
+        depth: Math.random() * 0.7 + 0.3,
+        phase: Math.random() * Math.PI * 2,
+      }));
+
+      const shapeCount = width < 640 ? 3 : width < 1024 ? 5 : 7;
+      shapes = Array.from({ length: shapeCount }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 32 + 18,
+        speed: Math.random() * 0.08 + 0.025,
+        rotation: Math.random() * Math.PI,
+        rotationSpeed: (Math.random() - 0.5) * 0.0006,
+        alpha: Math.random() * 0.035 + 0.015,
       }));
     };
 
     const draw = () => {
       context.clearRect(0, 0, width, height);
+      const lineColor = isDark ? "126, 164, 215" : "73, 111, 163";
+      const particleColor = isDark ? "221, 234, 255" : "72, 105, 148";
+      const yellow = getComputedStyle(document.documentElement).getPropertyValue("--hecfa-yellow").trim() || "#FAD405";
+
+      shapes.forEach((shape, index) => {
+        context.save();
+        context.translate(shape.x, shape.y);
+        context.rotate(shape.rotation);
+        context.strokeStyle = isDark
+          ? `rgba(126, 164, 215, ${shape.alpha})`
+          : `rgba(73, 111, 163, ${shape.alpha * 0.65})`;
+        context.lineWidth = 0.8;
+        context.beginPath();
+        context.moveTo(0, -shape.size);
+        context.lineTo(shape.size, 0);
+        context.lineTo(0, shape.size);
+        context.lineTo(-shape.size, 0);
+        context.closePath();
+        context.stroke();
+        if (index % 3 === 0) {
+          context.fillStyle = yellow;
+          context.globalAlpha = isDark ? 0.12 : 0.06;
+          context.fillRect(-1, -1, 2, 2);
+        }
+        context.restore();
+      });
 
       for (let firstIndex = 0; firstIndex < particles.length; firstIndex += 1) {
         const first = particles[firstIndex];
@@ -60,8 +122,8 @@ const ParticleNetwork = () => {
           const connectionDistance = width < 640 ? 105 : 135;
 
           if (distance < connectionDistance) {
-            const opacity = (1 - distance / connectionDistance) * 0.18;
-            context.strokeStyle = `rgba(126, 164, 215, ${opacity})`;
+            const opacity = (1 - distance / connectionDistance) * (isDark ? 0.18 : 0.1) * Math.min(first.depth, second.depth);
+            context.strokeStyle = `rgba(${lineColor}, ${opacity})`;
             context.lineWidth = 0.7;
             context.beginPath();
             context.moveTo(first.x, first.y);
@@ -70,11 +132,12 @@ const ParticleNetwork = () => {
           }
         }
 
-        context.fillStyle = `rgba(221, 234, 255, ${first.alpha})`;
-        context.shadowColor = "color-mix(in srgb, var(--hecfa-yellow) 42%, transparent)";
-        context.shadowBlur = 7;
+        const pulse = 0.82 + Math.sin(elapsed * 0.0012 + first.phase) * 0.18;
+        context.fillStyle = `rgba(${particleColor}, ${first.alpha * pulse * (isDark ? 1 : 0.62)})`;
+        context.shadowColor = yellow;
+        context.shadowBlur = isDark ? 7 * first.depth : 3 * first.depth;
         context.beginPath();
-        context.arc(first.x, first.y, first.radius, 0, Math.PI * 2);
+        context.arc(first.x, first.y, first.radius * (0.9 + first.depth * 0.2), 0, Math.PI * 2);
         context.fill();
         context.shadowBlur = 0;
 
@@ -82,20 +145,28 @@ const ParticleNetwork = () => {
           if (pointer.active) {
             const distanceToPointer = Math.hypot(first.x - pointer.x, first.y - pointer.y);
             if (distanceToPointer < 180) {
-              const influence = (1 - distanceToPointer / 180) * 0.012;
+              const influence = (1 - distanceToPointer / 180) * 0.012 * first.depth;
               first.vx += (pointer.x - first.x) * influence;
               first.vy += (pointer.y - first.y) * influence;
             }
           }
 
-          first.vx = Math.max(-0.22, Math.min(0.22, first.vx));
-          first.vy = Math.max(-0.22, Math.min(0.22, first.vy));
-          first.x += first.vx;
-          first.y += first.vy;
+          first.vx = Math.max(-0.22, Math.min(0.22, first.vx + Math.sin(elapsed * 0.00035 + first.phase) * 0.0008));
+          first.vy = Math.max(-0.22, Math.min(0.22, first.vy + Math.cos(elapsed * 0.0003 + first.phase) * 0.0008));
+          first.x += first.vx * (0.65 + first.depth);
+          first.y += first.vy * (0.65 + first.depth);
 
           if (first.x < -20 || first.x > width + 20) first.vx *= -1;
           if (first.y < -20 || first.y > height + 20) first.vy *= -1;
         }
+      }
+
+      if (!reduceMotion.matches) {
+        shapes.forEach((shape) => {
+          shape.y -= shape.speed;
+          shape.rotation += shape.rotationSpeed;
+          if (shape.y < -shape.size * 2) shape.y = height + shape.size * 2;
+        });
       }
     };
 
@@ -112,7 +183,10 @@ const ParticleNetwork = () => {
       draw();
     };
 
-    const animate = () => {
+    const animate = (timestamp: number) => {
+      const delta = Math.min(timestamp - lastFrame || 16, 40);
+      lastFrame = timestamp;
+      elapsed += delta;
       draw();
       animationFrame = window.requestAnimationFrame(animate);
     };
@@ -142,6 +216,7 @@ const ParticleNetwork = () => {
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("pointermove", handlePointerMove);
       canvas.removeEventListener("pointerleave", handlePointerLeave);
+      themeObserver.disconnect();
     };
   }, []);
 
@@ -200,9 +275,9 @@ const Hero = () => {
   }, [isDeleting, pairIndex, reduceMotion, word1, word2]);
 
   return (
-    <section id="home" className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-[#030b18] text-white">
-      <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_50%_44%,#163560_0%,#0b1d36_32%,#050f20_68%,#020713_100%)]" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_24%,rgba(1,5,14,0.58)_100%)]" />
+    <section id="home" className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-slate-50 text-slate-900 dark:bg-[#030b18] dark:text-white">
+      <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_50%_44%,#dce9f8_0%,#eef4fb_34%,#f8fafc_72%,#ffffff_100%)] dark:bg-[radial-gradient(circle_at_50%_44%,#163560_0%,#0b1d36_32%,#050f20_68%,#020713_100%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_24%,rgba(203,219,238,0.3)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_24%,rgba(1,5,14,0.58)_100%)]" />
       <ParticleNetwork />
 
       <div className="container relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 py-24 text-center sm:px-8 lg:py-28">
