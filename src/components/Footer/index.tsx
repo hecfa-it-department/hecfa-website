@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from "react";
 
 const navigationLinks = [
   ["Home", "/#home"],
-  ["About", "#about"],
-  ["Bureau", "#executive-board"],
-  ["Events", "/events"],
-  ["Partnerships", "#partners"],
+  ["About", "/#about"],
+  ["Bureau", "/#executive-board"],
+  ["Events", "/#events"],
+  ["Partnerships", "/#partners"],
   ["Gallery", "/#gallery"],
   ["Contact", "/#contact"],
 ] as const;

@@ -9,7 +9,13 @@ import menuData from "./menuData";
 const Header = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
+  const [currentHash, setCurrentHash] = useState("");
+  const [isHydrated, setIsHydrated] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     const handleStickyNavbar = () => setSticky(window.scrollY >= 48);
@@ -21,6 +27,14 @@ const Header = () => {
 
   useEffect(() => {
     setNavbarOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const updateHash = () => setCurrentHash(window.location.hash);
+
+    updateHash();
+    window.addEventListener("hashchange", updateHash);
+    return () => window.removeEventListener("hashchange", updateHash);
   }, [pathname]);
 
   return (
@@ -47,7 +61,7 @@ const Header = () => {
             <ul className="flex flex-col gap-1 lg:flex-row lg:items-center lg:justify-center lg:gap-3">
               {menuData.map((menuItem, index) => {
                 const anchor = menuItem.path?.split("#")[1];
-                const isActive = anchor ? pathname === "/" && typeof window !== "undefined" && window.location.hash === `#${anchor}` : pathname === menuItem.path;
+                const isActive = isHydrated && (anchor ? pathname === "/" && currentHash === `#${anchor}` : pathname === menuItem.path);
 
                 return (
                   <li key={menuItem.id} style={{ animationDelay: `${150 + index * 55}ms` }} className="animate-[navLinkIn_600ms_ease-out_both]">

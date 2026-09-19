@@ -1,7 +1,9 @@
 import ExecutiveBoard from "@/components/ExecutiveBoard";
 import AboutSectionOne from "@/components/About/AboutSectionOne";
 import Brands from "@/components/Brands";
+import Contact from "@/components/Contact";
 import ScrollUp from "@/components/Common/ScrollUp";
+import Events from "@/components/Events";
 import Hero from "@/components/Hero";
 import { Metadata } from "next";
 
@@ -18,7 +20,9 @@ export default function Home() {
       <Hero />
       <AboutSectionOne />
       <Brands />
-       <ExecutiveBoard />
+      <ExecutiveBoard />
+      <Events />
+      <Contact />
     </>
   );
 }

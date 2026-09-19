@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { events, type EventItem } from "./eventsData";
+import { events, type EventItem } from "../../../data/events";
 
 const mandates = ["2025/2026", "2024/2025", "2023/2024"] as const;
 
@@ -70,7 +70,7 @@ const Events = () => {
   const reveal = reduceMotion || isVisible;
 
   return (
-    <main ref={sectionRef} className={`events-page min-h-screen overflow-hidden bg-[#f8fafc] text-slate-900 dark:bg-[#030d26] dark:text-white ${reveal ? "events-visible" : ""}`}>
+    <section id="events" ref={sectionRef} className={`events-page min-h-screen scroll-mt-24 overflow-hidden bg-[#f8fafc] text-slate-900 dark:bg-[#030d26] dark:text-white ${reveal ? "events-visible" : ""}`}>
       <div className="events-dots pointer-events-none absolute inset-0" />
       <div className="container relative z-10 px-4 pb-24 pt-36 sm:pb-32 sm:pt-44">
         <header className="event-reveal mx-auto max-w-3xl text-center">
@@ -130,7 +130,7 @@ const Events = () => {
           .event-reveal { opacity: 1; transform: none; }
         }
       `}</style>
-    </main>
+    </section>
   );
 };
 
