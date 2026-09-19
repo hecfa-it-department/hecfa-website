@@ -6,8 +6,16 @@ import { events, type EventItem } from "../../../data/events";
 
 const mandates = ["2025/2026", "2024/2025", "2023/2024"] as const;
 
+const getFirstSentence = (description: string) => {
+  const trimmed = description.trim();
+  const firstSentence = trimmed.match(/^[\s\S]*?[.!?](?=\s|$)/);
+
+  return firstSentence ? firstSentence[0].trim() : trimmed;
+};
+
 const EventCard = ({ event }: { event: EventItem }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const preview = getFirstSentence(event.description);
 
   return (
     <article className="event-card group overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm transition duration-500 hover:-translate-y-1 hover:border-hecfa-yellow/70 hover:shadow-lg hover:shadow-blue-200/40 dark:border-[#1e3a75] dark:bg-[#0c1e47]/80 dark:hover:shadow-blue-950/40">
@@ -23,7 +31,9 @@ const EventCard = ({ event }: { event: EventItem }) => {
       <div className="flex flex-col p-6">
         <h3 className="text-xl font-semibold text-slate-900 dark:text-white">{event.title}</h3>
         <div className={`event-description ${isExpanded ? "event-description-expanded" : ""}`}>
-          <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{event.description}</p>
+          <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+            {isExpanded ? event.description : preview}
+          </p>
         </div>
         <button
           type="button"
@@ -121,10 +131,8 @@ const Events = () => {
         :global(.dark) .events-dots { background-image: radial-gradient(rgba(59, 130, 246, 0.18) 1.2px, transparent 1.2px); }
         .event-reveal { opacity: 0; transform: translateY(18px); transition: opacity 650ms cubic-bezier(0.22, 1, 0.36, 1), transform 650ms cubic-bezier(0.22, 1, 0.36, 1); }
         .events-visible .event-reveal { opacity: 1; transform: translateY(0); }
-        .event-description { max-height: 3.5rem; overflow: hidden; transition: max-height 350ms cubic-bezier(0.22, 1, 0.36, 1); }
-        .event-description-expanded { max-height: 20rem; }
-        .event-description p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
-        .event-description-expanded p { display: block; }
+        .event-description { max-height: 12rem; overflow: hidden; transition: max-height 350ms cubic-bezier(0.22, 1, 0.36, 1); }
+        .event-description-expanded { max-height: 40rem; }
         @media (prefers-reduced-motion: reduce) {
           .event-reveal, .event-card, .event-card img, .event-description { transition: none; }
           .event-reveal { opacity: 1; transform: none; }
